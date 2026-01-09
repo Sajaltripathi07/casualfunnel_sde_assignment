@@ -1,37 +1,48 @@
 # Quiz Application (MERN Stack)
 
-A full-stack quiz application built using the **MERN stack** for **CausalFunnel’s Software Engineer Intern assessment**.
+## Overview
+This is a full-stack Quiz Application built using the MERN stack as part of the CausalFunnel Software Engineer Intern assessment.
 
-## Key Features
-- Email-based quiz start
-- 15 MCQs fetched from OpenTDB API
-- 30-minute timer with auto-submit
-- Question navigation with status tracking
-- Result page with score and answer comparison
+The application allows users to start a quiz using their email, attempt 15 timed multiple-choice questions fetched from an external API, and view a detailed report after submission.  
+The system is designed with clear separation between frontend (React) and backend (Express) to demonstrate API design, state management, and session handling.
 
-## Tech Stack
-- **Frontend:** React, React Router, Axios
-- **Backend:** Node.js, Express
-- **API:** OpenTDB
+### Key Components
+- **Start Page:** Email input to initiate quiz session
+- **Quiz Page:** Timed quiz with question navigation and status tracking
+- **Report Page:** Final score with correct vs attempted answers
+- **Backend APIs:** Session management, question fetching, answer tracking
 
-## Setup & Run
+---
+
+## Setup & Installation
+
+### Prerequisites
+- Node.js (v14+)
+- npm
+
+### Steps
 ```bash
 npm run install-all
 npm run dev
-Frontend: http://localhost:3000
+Frontend runs on: http://localhost:3000
 
-Backend: http://localhost:5000
+Backend runs on: http://localhost:5000
 
-Project Structure
-go
-Copy code
-sdec_v1/
-├── backend/
-├── frontend/
-└── package.json
-Notes
-Session data stored in memory
+Assumptions
+User session data is stored in memory (no database required for assessment scope)
 
-Questions cached for 5 minutes
+Only one active quiz session per user at a time
 
-Timer persists across refresh
+Internet connectivity is available for fetching quiz questions
+
+Application is intended for demo/assessment purposes, not production
+
+Challenges Faced & Solutions
+1. OpenTDB API rate limiting (429 errors)
+→ Implemented caching of questions for 5 minutes and retry logic.
+
+2. Timer persistence on page refresh
+→ Used a server-based timer tied to the quiz session instead of frontend-only state.
+
+3. Managing quiz state across navigation
+→ Centralized state handling using backend session data and consistent API updates.
