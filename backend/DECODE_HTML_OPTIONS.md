@@ -1,51 +1,16 @@
-# HTML Decoding Options
+## HTML Decoding
 
-## Why decodeHtml is needed:
-The OpenTDB API returns questions like:
-- `"What is 2 + 2?"` → `"What is 2 + 2?"` (with &quot;)
-- `"It's easy"` → `"It&#039;s easy"` (with &#039;)
+The OpenTDB API returns questions with HTML entities such as `&quot;` and `&#039;`.  
+To ensure proper readability, these entities are decoded before rendering in the UI.
 
-Without decoding, users see: `"What is 2 + 2?"` instead of `"What is 2 + 2?"`
+### Approach Used
+A **manual HTML decoding function** is implemented using a lookup table for commonly occurring entities.
 
-## Option 1: Using a Library (SIMPLEST - Recommended)
+### Why this approach?
+- Avoids adding extra dependencies
+- Sufficient for the limited and predictable entities returned by OpenTDB
+- Keeps the project lightweight for assessment purposes
 
-Install the `he` library:
-```bash
-npm install he
-```
-
-Then replace the function with:
-```javascript
-const he = require('he');
-
-function decodeHtml(html) {
-  return he.decode(html);
-}
-```
-
-**Pros:**
-- ✅ One line of code
-- ✅ Handles ALL HTML entities automatically
-- ✅ Well-tested and maintained
-- ✅ No bugs with edge cases
-
-**Cons:**
-- ❌ Adds one small dependency (~10KB)
-
-## Option 2: Manual Approach (Current - No Dependencies)
-
-The current implementation uses a lookup table for common entities.
-
-**Pros:**
-- ✅ No external dependencies
-- ✅ Works for most common cases
-
-**Cons:**
-- ❌ More code to maintain
-- ❌ Might miss some rare entities
-- ❌ Need to add new entities manually
-
-## Recommendation
-
-For production, use **Option 1** (he library) - it's simpler and more reliable.
-
+### Limitation
+- Only common HTML entities are handled
+- Additional entities may need to be added if required
