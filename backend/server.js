@@ -7,10 +7,15 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-  origin: "https://casualfunnel-sde-assignment.vercel.app",
+  origin: true,             
   methods: ["GET", "POST", "OPTIONS"],
-  allowedHeaders: ["Content-Type"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 }));
+
+app.options("*", cors());
+
+app.use(express.json());
+
 
 app.options("*", cors());
 app.use(express.json());
